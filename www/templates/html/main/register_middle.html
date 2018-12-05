@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跳转页</title>
+    <style>
+        #box{
+            position: absolute;
+            top: 300px;
+            left: 450px;
+            border: 2px red solid;
+            text-align: center;
+            padding: 100px 50px;
+
+        }
+        a{
+            text-decoration: None;
+        }
+    </style>
+</head>
+<body onload="changePage()">
+    <div id="box">
+        注册成功!页面即将自动跳转,如果无响应
+        <a href="{% url 'main:home' %}">请手动点击跳转</a><br>
+        <span id="time">10</span>
+    </div>
+    <script>
+        var time = document.getElementById('time');
+        var n = time.innerText;
+        console.log(n);
+        n = parseInt(n);
+        var flag;
+
+    function changePage() {
+            n --;
+            time.innerText = n;
+            if(n == 0){
+                // 跳转页面
+                window.location = 'http://127.0.0.1:8000/App/home';
+                clearInterval(flag);
+            }
+            flag = setInterval('changePage()',1000);
+        }
+
+    </script>
+
+</body>
+</html>
+

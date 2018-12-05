@@ -1,0 +1,49 @@
+.li{
+    list-style-type: none;
+    float: left;
+    margin-left: 20px;
+}
+
+.img_box{
+    border: 1px blueviolet solid;
+    width: 144px;
+    height: 192px;
+    float: left;
+}
+
+.img{
+    width: 144px;
+    height: 192px;
+}
+
+.name{
+    text-align: center;
+}
+
+
+.page_guide{
+    list-style: none;
+    float: left;
+    margin: 0px 5px;
+    border: 1px solid black;
+    text-align: center;
+    width: 50px;
+}
+
+.page_button{
+    text-decoration: none;
+}
+
+#page{
+    position: absolute;
+    top: 300px;
+}
+
+.changecolor{
+    background-color: red;
+}
+
+.hideclick{
+    disabled: disabled;
+    color: #CCD5E2;
+}

@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+		<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.css' %}" />
+
+		<link rel="stylesheet" type="text/css" href="{% static 'css/swiper.css' %}" />
+		<script type="text/javascript" src="{% static 'js/swiper.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+		<style type="text/css">
+			.form-info {
+				border: 1px solid orange;
+				margin: 100px auto;
+				width: 30%;
+				padding: 50px;
+			}
+
+			.form-info h2{
+				font-size: 2rem;
+				margin-bottom: 20px;
+			}
+			.form-info .submit{
+				text-align: center;
+			}
+            #username{
+                display: None;
+            }
+            #password{
+                display: None;
+            }
+            #password1{
+                display: None;
+            }
+            #email{
+                display: None;
+            }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container-fluid">
+			<div class="form-info">
+
+				<h2>用户注册</h2>
+
+				<form action="{% url 'main:register' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+						<label for="exampleInputEmail1">用户名</label>
+						<input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入用户名" name="username" onblur="checkname()">
+                        <span id="username" style="color: red;">用户名长度不符合规范</span>
+						<p class="help-block">请输入2-16位用户名</p>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">密码</label>
+						<input type="password" class="form-control" placeholder="请输入密码" name="password" id="pwd" onblur="checkpwd()">
+                        <span id="password" style="color: red;">密码过长</span>
+                        <p class="help-block">请输入6位以上拼音字母组合密码</p>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1" >确认密码</label>
+						<input type="password" class="form-control" placeholder="请再次输入密码" onblur="checkpwd2()" id="pwd1">
+						<span id="password1" style="color: red;">密码不同</span>
+                        <p class="help-block">请再次输入6位以上拼音字母组合密码</p>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">邮箱</label>
+						<input type="text" class="form-control" placeholder="请输入邮箱" name="email" onblur="checkmail()" id="eml">
+                        <span id="email" style="color: red;">邮箱不符合格式</span>
+                        <p class="help-block">请输入邮箱</p>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputFile">头像</label>
+						<input type="file" id="exampleInputFile" name="icon">
+
+					</div>
+					<div class="submit"><button type="submit" class="btn btn-primary" onclick="check()" id="button">注册</button></div>
+
+				</form>
+			</div>
+		</div>
+        
+        <script>
+            function checkname() {
+                console.log('进来了')
+                var name = document.getElementById('exampleInputEmail1');
+                var content = name.value;
+                var warning = document.getElementById('username');
+                console.log(content.length);
+                if (content.length > 16 || content.length < 2){
+                    console.log('走这里了');
+                    warning.style.display = 'inline'
+                }else{
+                    warning.style.display = 'None'
+                }
+            }
+
+            function checkpwd() {
+                var pwd = document.getElementById('pwd');
+                var content = pwd.value;
+                var warning = document.getElementById('password');
+                console.log(content.length);
+                if (content.length > 32 || content.length < 6){
+                    warning.style.display = 'inline'
+                }else{
+                    warning.style.display = 'None'
+                }
+            }
+
+            function checkpwd2() {
+                var pwd1 = document.getElementById('pwd1');
+                var content1 = pwd1.value;
+                var pwd = document.getElementById('pwd');
+                var content = pwd.value;
+                var warning = document.getElementById('password1');
+                console.log(content != content1)
+                if (content != content1){
+                    warning.style.display = 'inline'
+                }else{
+                    warning.style.display = 'None'
+                }
+            }
+
+            function checkmail() {
+                var email = document.getElementById('eml');
+                var reg = /\w+@\w+\.\w+/g
+                var str = email.value;
+                var result = str.match(reg);
+                var warning = document.getElementById('email');
+                console.log(result)
+                if (result == null){
+                    warning.style.display = 'inline'
+                }else{
+                    warning.style.display = 'None'
+                }
+
+            }
+            function check() {
+                checkname();
+                checkpwd();
+                checkpwd2();
+                checkmail()
+                var warning = document.getElementById('username');
+                var warning1 = document.getElementById('password');
+                var warning2 = document.getElementById('password1');
+                var warning3 = document.getElementById('email');
+                var button = document.getElementById('button')
+                console.log(warning.style.display);
+                if (warning.style.display!='none' || warning1.style.display!='none' ||
+                warning2.style.display!='none' || warning3.style.display!='none'){
+                    console.log('出现异常了')
+                    button.disabled = 'True'
+                }
+            }
+        </script>
+
+	</body>
+
+</html>

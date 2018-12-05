@@ -1,0 +1,258 @@
+/** audio player styles **/
+.audio-player, .audio-player div,.audio-player button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+div.audio-player {
+  position: relative;
+  width: 100% !important;
+  height: 50px !important;
+  margin: 0 auto;
+}
+/* play/pause control */
+.mejs-controls .mejs-button button {
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  text-indent: -9999px;
+}
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+    width: 26px;
+    height: 26px;
+    top: 45px;
+    left: 60px;
+    background: transparent url('../images/play.png') -2px 1px no-repeat;
+    z-index: 1;
+}
+.mejs-controls .mejs-pause button { 
+	background-position:-2px -37px; 
+}
+/* mute/unmute control */
+.mejs-controls .mejs-mute button, .mejs-controls .mejs-unmute button {
+  width: 18px;
+  height: 19px;
+  top: 45px;
+  right: 92px;
+  background: transparent url('../images/img-sprite.png') no-repeat -181px -23px;
+}
+
+/* volume scrubber bar */
+.mejs-controls div.mejs-horizontal-volume-slider {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  cursor: pointer;
+}
+/* time scrubber bar */
+.mejs-controls div.mejs-time-rail { 
+	width: 380px; 
+}
+.mejs-controls .mejs-time-rail span {
+  position: absolute;
+  display: block;
+  width: 380px;
+  height: 6px;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  -webkit-border-radius: 0px 0px 2px 2px;
+  -moz-border-radius: 0px 0px 2px 2px;
+  border-radius: 0px 0px 2px 2px;
+}
+.mejs-controls .mejs-time-rail .mejs-time-total { 
+  background: #e2e2e2; 
+  width: 433px !important; /* fixes display bug using jQuery 1.8+ */
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.mejs-controls .mejs-time-rail .mejs-time-loaded {
+  top: 0;
+  left: 0;
+  width: 0;
+  background: #c6d5da;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.mejs-controls .mejs-time-rail .mejs-time-current {
+  top: 0;
+  left: 0;
+  width: 0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background:#a249b5; 
+}
+/* metallic sliders */
+.mejs-controls .mejs-time-rail .mejs-time-handle {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 20px;
+  top: -6px;
+  background: url('../images/dot.png') no-repeat;
+}
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-handle {
+  position: absolute;
+  display: block;
+  width: 12px  !important;
+  height: 14px  !important;
+  top: -2px;
+  background: url('../images/dot1.png') no-repeat 0px 0px;
+}
+/* time progress tooltip */
+.mejs-controls .mejs-time-rail .mejs-time-float {
+  position: absolute;
+  display: none;
+  width: 33px;
+  height: 23px;
+  top: -26px;
+  margin-left: 0;
+  z-index: 9999;
+  background: url('../images/time-box.png');
+}
+.mejs-controls .mejs-time-rail .mejs-time-float-current {
+  width: 33px;
+  display: block;
+  left: 0;
+  top: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #666;
+  text-align: center;
+  z-index: 9999;
+}
+
+/* volume scrubber bar */
+.mejs-controls div.mejs-horizontal-volume-slider {
+	position: absolute;
+	top: 53px;
+    right: 5px;
+	cursor: pointer;
+    z-index: 1;
+}
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
+  width: 80px !important;
+  height: 5px !important;
+  background: #e2e2e2; 
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+  position: absolute;
+  width: 0 ;
+  height: 5px !important;
+  top: 1px;
+  left: 1px;
+  background:#FC7FA3;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+/*--responsive--*/
+@media(max-width:1440px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 364px !important;
+}
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  left:51px !important;
+}
+}
+@media(max-width:1366px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 341px !important;
+}
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  left: 48px;
+}
+}
+@media(max-width:1280px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 309px !important;
+}
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  left: 46px !important;
+}
+}
+@media(max-width:1024px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 215px !important;
+    top: 14px;
+}
+.mejs-controls .mejs-mute button, .mejs-controls .mejs-unmute button {
+
+  top: 37px;
+}
+.mejs-controls div.mejs-horizontal-volume-slider {
+  top: 45px;
+}
+
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  left: 34px;
+  top: 37px;
+}
+div.audio-player {
+  height: 42px !important;
+}
+.next-top li i.next {
+    left: 18% !important;
+}
+}
+@media(max-width:768px){
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  left: 71px !important;
+}
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 475px !important;
+}
+}
+@media(max-width:640px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 347px !important;
+}
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+    left: 59px !important;
+}
+}
+@media(max-width:480px){
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  left: 43px !important;
+}
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 300px !important;
+}
+.audio-player div{
+	width:72px !important;
+}
+}
+@media(max-width:375px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+    width: 230px !important;
+}
+}
+@media(max-width:320px){
+.mejs-controls .mejs-time-rail .mejs-time-total {
+  width: 194px !important;
+}
+.mejs-controls .mejs-play button, .mejs-controls .mejs-pause button {
+  width: 22px;
+  height: 22px;
+  background: transparent url('../images/play.png') -1px 1px no-repeat;
+  background-size: 22px;
+  top: 38px;
+  left: 38px !important;
+}
+.mejs-controls .mejs-pause button {
+    background-position: -1px -30px;
+}
+.next-top li i.next {
+    left: 23% !important;
+}
+.mejs-controls div.mejs-horizontal-volume-slider {
+    right: 14px;
+}
+}
