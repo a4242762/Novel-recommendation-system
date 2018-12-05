@@ -38,7 +38,6 @@ class Handler(BaseHandler):
             "url": response.url,
             "title": response.doc('title').text(),
             "图片链接": response.doc('.book-img > a > img').attr.src,
-            # "字体链接": response.doc('div.book-info > p:nth-child(4) > em:nth-child(1)').text(),
             "书名": response.doc('.book-info > h1 > em').text(),
             "作者": response.doc('div.book-info > h1 > span > a').text(),
             "解密字体库链接": jmzt,
