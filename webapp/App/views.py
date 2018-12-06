@@ -1,7 +1,7 @@
 import hashlib
 import random
 from math import ceil
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 from django.http import HttpResponse, JsonResponse
 
@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from App.models import User, mainPage_img, Inovel
+from App.models import User, Novel
 import json
 
 
@@ -121,7 +121,7 @@ def add_inovel(request):
     type_list = ['玄幻','游戏','武侠']
 
     for i in range(10):
-        inovel = Inovel()
+        inovel = Novel()
         type = random.choice(type_list)
         num = random.randint(1,100)
         inovel.inovel_name = type + str(num)
@@ -142,7 +142,7 @@ def test(request):
     # print(data)
     return HttpResponse('完成')
 
-page_log = []
+
 # 将小说分类,渲染到html页面
 @csrf_exempt
 def classify_inovel(request):
@@ -150,85 +150,41 @@ def classify_inovel(request):
         'status': '200',
     }
 
-    global page_log
-    # print(page_log)
-
     # 获取标签
     label = request.GET.get('label')
     # print(label)
 
     # 获取页码
-    page = request.GET.get('page')
-
-    if page == '上一页':
-        page = page_log[-1] - 1
-    if page == '下一页':
-        page = page_log[-1] + 1
-    else:
-        page = int(page)
-
-    # 将当前页码记录在列表中
-    page_log.append(page)
+    page = int(request.GET.get('page'))
 
     # 设置一页小说的个数
-    inovel_num = 2
-    inovel_list = Inovel.objects.filter(inovel_type=label)
+    inovel_num = 9
+    inovel_list = Novel.objects.filter(book_one_title=label)
     inovelss = []
 
     for inovel in inovel_list:
         inovelss.append({
-            'inovel_name': inovel.inovel_name,
-            'inovel_cover': inovel.inovel_cover.url,
-            'inovel_type': inovel.inovel_type,
+            'inovel_name': inovel.book_name,
+            'inovel_cover': inovel.img_src,
+            'inovel_type': inovel.book_one_title,
+            'inovel_author': inovel.author,
+            'inovel_state': inovel.book_state,
+            'inovel_info': inovel.book_infomation,
+            'inovel_score': inovel.fontnumber,
+            'inovel_click': inovel.clicknumber
         })
         # print(inovel.inovel_cover.url)
+
     data[label] = inovelss[(page-1)*inovel_num:(page-1)*inovel_num+inovel_num]
+    # print((page-1)*inovel_num,(page-1)*inovel_num+inovel_num)
+    # print(data[label])
+
     data['page_count'] = ceil(len(inovelss) / inovel_num)
+    data['inovel_count'] = len(inovelss)
+    # print(data[label])
 
     return JsonResponse(data,json_dumps_params={'ensure_ascii':False})
 
-# 每个分类的页面
-def fantasy(request):
-    return render(request, '../templates/html/classify/fantasy.html')
-
-def qihuan(request):
-    return render(request, '../templates/html/classify/qihuan.html')
-
-def swordsman(request):
-    return render(request, '../templates/html/classify/swordsman.html')
-
-def xianxia(request):
-    return render(request, '../templates/html/classify/xianxia.html')
-
-def city(request):
-    return render(request, '../templates/html/classify/city.html')
-
-def reality(request):
-    return render(request, '../templates/html/classify/reality.html')
-
-def military(request):
-    return render(request, '../templates/html/classify/military.html')
-
-def history(request):
-    return render(request, '../templates/html/classify/history.html')
-
-def game(request):
-    return render(request, '../templates/html/classify/game.html')
-
-def sport(request):
-    return render(request, '../templates/html/classify/sport.html')
-
-def science_fiction(request):
-    return render(request, '../templates/html/classify/science_fiction.html')
-
-def spiritual(request):
-    return render(request, '../templates/html/classify/spiritual.html')
-
-def girl(request):
-    return render(request, '../templates/html/classify/girl.html')
-
-def cartoon(request):
-    return render(request, '../templates/html/classify/cartoon.html')
 
 # 输入词提醒,返回提示框json数据
 def word_tip(request):
@@ -236,24 +192,24 @@ def word_tip(request):
     data = {}
 
     # 从数据库中查找书名或者作者
-    bookname = Inovel.objects.filter(inovel_name__contains=input_word)
+    bookname = Novel.objects.filter(book_name__contains=input_word)
     # print(bookname)
     if bookname.exists():
         # print('书名存在')
         inovelss = []
 
         for inovel in bookname:
-            inovelss.append(inovel.inovel_name)
+            inovelss.append(inovel.book_name)
             # print(inovel.inovel_cover.url)
         data[input_word] = inovelss
     else:
-        authorname = Inovel.objects.filter(inovel_author__contains=input_word)
+        authorname = Novel.objects.filter(author__contains=input_word)
         if authorname.exists():
             inovelss = []
 
             for inovel in authorname:
-                if inovel.inovel_author not in inovelss:
-                    inovelss.append(inovel.inovel_author)
+                if inovel.author not in inovelss:
+                    inovelss.append(inovel.author)
 
             data[input_word] = inovelss
     # print(data)
@@ -284,19 +240,13 @@ def return_data(request):
     # 获取页码
     page = int(request.GET.get('page'))
 
-    # if page == '上一页':
-    #     page = page_log[-1] - 1
-    # if page == '下一页':
-    #     page = page_log[-1] + 1
-    # else:
-    #     page = int(page)
 
     # 将当前页码记录在列表中
     # page_log.append(page)
 
     # # 设置一页小说的个数
     inovel_num = 2
-    bookname = Inovel.objects.filter(inovel_name__contains=word)
+    bookname = Novel.objects.filter(book_name__contains=word)
     inovelss = []
 
     # print(bookname)
@@ -304,16 +254,16 @@ def return_data(request):
         # print('书名存在')
 
         for inovel in bookname:
-            inovelss.append(inovel.inovel_name)
+            inovelss.append(inovel.book_name)
             # print(inovel.inovel_cover.url)
 
     else:
-        authorname = Inovel.objects.filter(inovel_author__contains=word)
+        authorname = Novel.objects.filter(author__contains=word)
         if authorname.exists():
 
             for inovel in authorname:
-                if inovel.inovel_author not in inovelss:
-                    inovelss.append(inovel.inovel_author)
+                if inovel.author not in inovelss:
+                    inovelss.append(inovel.author)
 
     data[word] = inovelss[(page - 1) * inovel_num:(page - 1) * inovel_num + inovel_num]
     data['page_count'] = ceil(len(inovelss) / inovel_num)
